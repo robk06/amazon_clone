@@ -1,0 +1,27 @@
+.orders {
+    padding: 20px 80px;
+}
+
+.orders > h1 {
+    margin: 30px 0;
+} 
+
+.no__orders__link {
+    color: #F1C40F;
+    font-size: 15px;
+  }
+  
+  .no__orders__link:hover {
+    text-decoration: none;
+  }
+
+@media only screen and (max-width: 600px) {
+    .orders__order {
+        margin: -40px;
+        margin-top: 15px;
+    } 
+
+    .orders > h1 {
+        margin-left: -30px;
+    }
+}

@@ -1,0 +1,45 @@
+.checkout {
+  display: flex;
+  padding: 20px;
+  background-color: white;
+  height: max-content;
+}
+
+.checkout__ad {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.checkout__title {
+  margin-right: 10px;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+}
+
+.no__items {
+  margin-top: 10px;
+}
+
+.no__items__link {
+  color: #F1C40F;
+  font-size: 15px;
+}
+
+.no__items__link:hover {
+  text-decoration: none;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+  .checkout {
+  display: flex;
+  flex-direction: column;
+  }
+
+  p {
+    margin-bottom: 10px;
+  }
+}
+
+
