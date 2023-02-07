@@ -16,10 +16,11 @@ function Checkout() {
           alt=""
         />
 
-
+        
         <div>
           <h3>Hello, {user?.email}</h3>
           <h2 className="checkout__title">Your Shopping Cart</h2>
+          {/* If the user's basket contains more than 0 items, each checkout item will be shown. Otherwise, if the user has 0 items in their basket, "you have no items in your basket" will be shown" */}
 
           {basket.length > 0 ? basket.map((item) => (
 

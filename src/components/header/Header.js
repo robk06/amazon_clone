@@ -9,6 +9,7 @@ import { auth } from "../../firebase";
 function Header() {
   const [{ basket, user }, dispatch] = useStateValue();
 
+  //If the user is signed in, the authentication module from Firebase will be pulled and the user will be signed out.
   const handleAuthentication = () => {
     if (user) {
       auth.signOut();
@@ -28,10 +29,12 @@ function Header() {
         <input className="header__searchInput" type="text" />
         <SearchIcon className="header__searchIcon" />
       </div>
-
+ 
       <div className="header__nav">
+      {/* If not recongised as a user, only then direct the user to the login page. */}
         <Link to={!user && "/login"}>
           <div onClick={handleAuthentication} className="header__option">
+          {/* Hello Guest is shown if the user does not have an account or is not signed in. Hello followed by the user's email will be shown if the user has signed in. */}
             <span className="header__optionLineOne">
               Hello {!user ? "Guest" : user.email}
             </span>
@@ -51,11 +54,13 @@ function Header() {
           <span className="header__optionLineTwo">Prime</span>
         </div>
 
+        {/* The optional chaining operator (?.) accesses an object's property or calls a function. If the object is undefined or null, it returns undefined instead of throwing an error. */}
+
         <Link to="/checkout">
           <div className="header__optionBasket">
-            <ShoppingBasketIcon />
-            <span className="header__optionLineTwo header__basketCount">
-              {basket?.length}
+            <ShoppingBasketIcon /> 
+            <span className="header__optionLineTwo header__basketCount"> 
+              {basket?.length} 
             </span>
           </div>
         </Link>
@@ -65,3 +70,5 @@ function Header() {
 }
 
 export default Header;
+
+

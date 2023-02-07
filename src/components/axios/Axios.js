@@ -1,3 +1,5 @@
+//axios is a fetching library. It allows you to interact with an API. 
+
 import axios from "axios";
 
 const instance = axios.create({

@@ -12,6 +12,8 @@ function Orders() {
     const [orders, setOrders] = useState([]);
     const Navigate = useNavigate();
   
+    //If the user exists, this pulls the orders for the current user and displays them in descending order based on the date created. 
+    //OnSnapshot provides a real time snapshot of the database. The below onSnapShot code is saying: For each document, return an object which has an ID and data. 
     useEffect(() => {
       if(user) {
           db

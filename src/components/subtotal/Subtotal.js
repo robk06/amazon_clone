@@ -29,6 +29,7 @@ function Subtotal() {
         prefix={"$"}
       />
 
+      {/* This redirects the user to the payment page once they've clicked this button. */}
       <button onClick={(e) => navigate("/payment", { replace: true })}>
         Proceed to Checkout
       </button>

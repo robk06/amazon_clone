@@ -9,7 +9,7 @@ const stripe = require("stripe")(
 // - App config
 const app = express();
 
-// - Middlewares
+// - Middleware: Software that different applications use to communicate with each other
 app.use(cors({ origin: true }));
 app.use(express.json());
 
@@ -19,14 +19,14 @@ app.get("/", (request, response) => response.status(200).send("hello world"));
 app.post("/payments/create", async (request, response) => {
   const total = request.query.total;
 
-  console.log("Payment Request Recieved BOOM!!! for this amount >>> ", total);
+  console.log("Payment request recieved for this amount >>> ", total);
 
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: total, // subunits of the currency
+    amount: total, // basket total in subunits of the currency below. 
     currency: "usd",
   });
 
-  // OK - Created
+  // OK - Payment intent has been created.
   response.status(201).send({
     clientSecret: paymentIntent.client_secret,
   });

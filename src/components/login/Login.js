@@ -9,6 +9,9 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //   Firebase Login
+  //The below logs the user in. If it is successful (then) it redirects (navigate) the user to the homepage.
+
   const signIn = (e) => {
     e.preventDefault();
     auth
@@ -17,11 +20,12 @@ function Login() {
         navigate("/");
       })
       .catch((error) => alert(error.message));
-    //   Firebase Login
   };
 
   //     Firebase Register
-
+  // The below creates a user with their email and password and if it is successful (then) it creates an auth object which comtains the user's login credentials and redirects (navigate) the user to the homepage.  
+  // If there is an erorr message, an alert will be shown on their screen. 
+  
   const register = (e) => {
     e.preventDefault();
     auth
@@ -47,6 +51,7 @@ function Login() {
       <div className="login__container">
         <h1>Sign in</h1>
 
+        {/* The onChange below will set the email to whatever the user typed into this field */}
         <form>
           <h5>Email</h5>
           <input
@@ -55,6 +60,7 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
           />
 
+          {/* The onChange below will set the password to whatever the user typed into this field */}
           <h5>Password</h5>
           <input
             type="password"

@@ -2,8 +2,10 @@ import React from "react";
 import { useStateValue } from "../stateprovider/StateProvider";
 import "./Product.css";
 
+
+// The Product props are passed here.
 function Product({ id, title, image, price, rating }) {
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket }, dispatch] = useStateValue(); //basket is the state and dispatch is the dispatch function
 
   const addToBasket = () => {
     //dispatch the item into the data layer
@@ -28,6 +30,7 @@ function Product({ id, title, image, price, rating }) {
           <strong>{price}</strong>
         </p>
         <div className="product__rating">
+        {/* This creates an empty array for the rating, maps through the ratings for each product and displays the respective ratings */}
           {Array(rating)
             .fill()
             .map((_, i) => (

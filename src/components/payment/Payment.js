@@ -26,28 +26,29 @@ function Payment() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Generate the special stripe secret which allows us to charge the customer the correct amount
+    // This generates the special stripe secret which allows us to charge a customer. 
 
     const getClientSecret = async () => {
       const response = await axios({
         method: "post",
-        //Stripe expects the total in a currency's subunits E.g. if you're using dollars, it should be in cents
+        //We are passing the total here. Also, Stripe expects the total in a currency's subunits E.g. if you're using dollars, it should be in cents, which is why it is being multiplied by 100 here.
         url: `/payments/create?total=${getBasketTotal(basket) * 100}`
       });
       setClientSecret(response.data.clientSecret);
     };
 
+    //Whenever the basket changes, we are provided with a new client secret to ensure the customer is charged the correct amount. 
     getClientSecret();
   }, [basket]);
 
   console.log("The Secret is ", clientSecret);
 
   const handleSubmit = async (event) => {
-    // do all the fancy stripe stuff...
     event.preventDefault();
-    //This will prevent you from pressing the Buy Now button again while a payment is being processed
+    //This will prevent a user from pressing the Buy Now button again while a payment is being processed.
     setProcessing(true);
 
+    //Card payment is confirmed here using the client secret. The payment method is the card details entered into the card element. 
     const payload = await stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
@@ -55,30 +56,35 @@ function Payment() {
         },
       })
       .then(({ paymentIntent }) => {
-        //paymentIntent = payment confirmation
+        //paymentIntent = payment confirmation.
 
+        //This is using a NOSQL database structure. 
+        //This adds basket items, amount and the created date and time to the Firestore database against the correct user. 
         db.collection('users').doc(user?.uid).collection('orders').doc(paymentIntent.id).set({
             basket: basket,
             amount: paymentIntent.amount,
             created: paymentIntent.created
         })
 
+        //If there were no issues with the payment, the following are set. 
         setSucceeded(true);
         setError(null);
         setProcessing(false);
 
+        //The basket is emptied after payment has been made. 
         dispatch({
             type: 'EMPTY_BASKET'
         })
 
+        //After the payment has been made, the user is directed to the Orders page. 
         navigate("/orders", { replace: true });
       });
   };
 
   const handleChange = (e) => {
-    // Listen for changes in the CardElement
-    // And display any errors as the customer types their card details
+    //This disables the CardElement while it's empty.
     setDisabled(e.empty);
+    // This will listen for changes in the CardElement and display any errors as the customer types their card details.
     setError(e.error ? e.error.message : "");
   };
 
@@ -104,6 +110,8 @@ function Payment() {
           <div className="payment__title">
             <h3>Review Items and Delivery</h3>
           </div>
+
+          {/* This will show all of the items which are currently in the user's basket. For every item in the basket, it will return the following. */}
           <div className="payment__items">
             {basket.map((item) => (
               <CheckoutProduct
@@ -122,7 +130,7 @@ function Payment() {
             <h3>Payment Method</h3>
           </div>
           <div className="payment__details">
-            {/* Stripe stuff will go here */}
+            {/*  */}
 
             <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
@@ -136,6 +144,7 @@ function Payment() {
                   thousandSeparator={true}
                   prefix={"$"}
                 />
+                {/* When the payment is being processed, the word "processing" will be displayed, otherwise "Buy Now" will be displayed. */}
                 <button disabled={processing || disabled || succeeded}>
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                 </button>
